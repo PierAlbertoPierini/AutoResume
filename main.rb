@@ -19,7 +19,7 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#  
+#
 
 require 'tk'
 require 'tkextlib/tile'
@@ -36,7 +36,7 @@ TkOption.add '*tearOff', 0
 
 menu_click = Proc.new {
    Tk.messageBox(
-      'type'    => "ok",  
+      'type'    => "ok",
       'icon'    => "info",
       'title'   => "Title",
       'message' => "Message"
@@ -69,8 +69,8 @@ file_menu.add('command',
 file_menu.add('separator')
 file_menu.add('command',
               'label'     => "Exit",
-              'command'   => menu_click,
-              'underline' => 3)
+              'command'   => proc { exit },
+              'underline' => 0)
 
 
 menu_bar = TkMenu.new
@@ -87,22 +87,35 @@ TkGrid.columnconfigure root, 0, :weight => 1; TkGrid.rowconfigure root, 0, :weig
 
 # Start Text
 
-my_resume = TkText.new(content) {width 50; height 20; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 0, :row => 1, :sticky => 'w')
+# Start Notebook
+
+notebook = Tk::Tile::Notebook.new(root){place('height' => 400, 'width' => 600)}
+
+f1 = TkFrame.new(notebook)
+f2 = TkFrame.new(notebook)
+f3 = TkFrame.new(notebook)
+
+notebook.add f1, :text => 'Stats'
+notebook.add f2, :text => 'Hard Skills'
+notebook.add f3, :text => 'Soft Skills'
+
+# End Notebook
+
+
+my_resume = TkText.new(f1) {width 40; height 20; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 0, :row => 1)
 my_resume.insert 'end', "Paste your resume"
 
-job_application = TkText.new(content) {width 50; height 20; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 1, :row => 1, :sticky => 'e')
+job_application = TkText.new(f1) {width 40; height 20; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 1, :row => 1)
 job_application.insert 'end', "Paste job post"
 
 # End Text
 
 # Start Buttons
 
-Tk::Tile::Button.new(content) {text 'Clear'; command {calculate}}.grid( :column => 0, :row => 2, :sticky => 'w')
-Tk::Tile::Button.new(content) {text 'Paste'; command {calculate}}.grid( :column => 0, :row => 2, :sticky => 'e')
-Tk::Tile::Button.new(content) {text 'Clear'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'w')
-Tk::Tile::Button.new(content) {text 'Paste'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'e')
-
-
+Tk::Tile::Button.new(f1) {text 'Clear'; command {calculate}}.grid( :column => 0, :row => 2, :sticky => 'w')
+Tk::Tile::Button.new(f1) {text 'Paste'; command {calculate}}.grid( :column => 0, :row => 2, :sticky => 'e')
+Tk::Tile::Button.new(f1) {text 'Clear'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'w')
+Tk::Tile::Button.new(f1) {text 'Paste'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'e')
 
 # End Buttons
 

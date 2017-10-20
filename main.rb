@@ -23,25 +23,35 @@
 
 require 'tk'
 require 'tkextlib/tile'
+require_relative 'src/word_counter.rb'
 
-# require_relative 'src/calculate.rb'
 
 root = TkRoot.new {title "AutoResume"}
-content = Tk::Tile::Frame.new(root)
+Tk::Tile::Frame.new(root).grid( :padx => 350, :pady => 250)
+Tk::Tile::SizeGrip.new(root).grid( :column => 999, :row => 999, :sticky => 'se')
 TkOption.add '*tearOff', 0
 
 # Variables
 
-# Start Menu
+# Menu Actions
 
 menu_click = Proc.new {
    Tk.messageBox(
       'type'    => "ok",
       'icon'    => "info",
-      'title'   => "Title",
-      'message' => "Message"
+      'title'   => "Message",
+      'message' => "Function not supported"
    )
 }
+
+ar_openfile = Proc.new {
+   Tk.getOpenFile
+}
+ar_savefile = Proc.new {
+   Tk.getSaveFile
+}
+
+# Start Menu
 
 file_menu = TkMenu.new(root)
 
@@ -51,7 +61,7 @@ file_menu.add('command',
               'underline' => 0)
 file_menu.add('command',
               'label'     => "Open...",
-              'command'   => menu_click,
+              'command'   => ar_openfile,
               'underline' => 0)
 file_menu.add('command',
               'label'     => "Close",
@@ -60,7 +70,7 @@ file_menu.add('command',
 file_menu.add('separator')
 file_menu.add('command',
               'label'     => "Save",
-              'command'   => menu_click,
+              'command'   => ar_savefile,
               'underline' => 0)
 file_menu.add('command',
               'label'     => "Save As...",
@@ -89,23 +99,32 @@ TkGrid.columnconfigure root, 0, :weight => 1; TkGrid.rowconfigure root, 0, :weig
 
 # Start Notebook
 
-notebook = Tk::Tile::Notebook.new(root){place('height' => 400, 'width' => 600)}
+notebook = Tk::Tile::Notebook.new(root){place('height' => 480, 'width' => 700)}
 
 f1 = TkFrame.new(notebook)
 f2 = TkFrame.new(notebook)
 f3 = TkFrame.new(notebook)
+f4 = TkFrame.new(notebook)
+f5 = TkFrame.new(notebook)
+f6 = TkFrame.new(notebook)
+f7 = TkFrame.new(notebook)
 
 notebook.add f1, :text => 'Stats'
-notebook.add f2, :text => 'Hard Skills'
-notebook.add f3, :text => 'Soft Skills'
+notebook.add f2, :text => 'Soft Skills'
+notebook.add f3, :text => 'Hard Skills'
+notebook.add f4, :text => 'Technical Knowledge'
+notebook.add f5, :text => 'Volunteer Experiences & Causes'
+notebook.add f6, :text => 'Employment History'
+notebook.add f7, :text => 'Education and Training'
 
 # End Notebook
 
 
-my_resume = TkText.new(f1) {width 40; height 20; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 0, :row => 1)
-my_resume.insert 'end', "Paste your resume"
+my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 0, :row => 1)
+# my_resume.insert 'end', "Paste your resume"
+#Tk::messageBox :message => count_words(my_resume).sort
 
-job_application = TkText.new(f1) {width 40; height 20; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 1, :row => 1)
+job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 1, :row => 1)
 job_application.insert 'end', "Paste job post"
 
 # End Text
@@ -113,7 +132,7 @@ job_application.insert 'end', "Paste job post"
 # Start Buttons
 
 Tk::Tile::Button.new(f1) {text 'Clear'; command {calculate}}.grid( :column => 0, :row => 2, :sticky => 'w')
-Tk::Tile::Button.new(f1) {text 'Paste'; command {calculate}}.grid( :column => 0, :row => 2, :sticky => 'e')
+Tk::Tile::Button.new(f1) {text 'Send'; command {Tk::messageBox :message => count_words(my_resume).sort}}.grid( :column => 0, :row => 2, :sticky => 'e')
 Tk::Tile::Button.new(f1) {text 'Clear'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'w')
 Tk::Tile::Button.new(f1) {text 'Paste'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'e')
 

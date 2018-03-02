@@ -62,8 +62,10 @@ file_menu.add('command',
               'underline' => 0)
 file_menu.add('command',
               'label'     => "Open...",
-              'command'   => ar_openfile,
-              'underline' => 0)
+              'command'   => proc {openDocument},
+              'underline' => 0,
+              'accel' =>'Ctrl-o')
+root.bind('Control-o', proc {openDocument})
 file_menu.add('command',
               'label'     => "Close",
               'command'   => menu_click,
@@ -79,10 +81,11 @@ file_menu.add('command',
               'underline' => 5)
 file_menu.add('separator')
 file_menu.add('command',
-              'label'     => "Exit",
+              'label'     => "Quit",
               'command'   => proc { exit },
-              'underline' => 0)
-
+              'underline' => 0,
+              'accel' => 'Ctrl-q')
+root.bind('Control-q', proc {exit})
 
 menu_bar = TkMenu.new
 menu_bar.add('cascade',

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+#  encoding: UTF-8
 #
 #  main.rb
 #
@@ -99,7 +100,7 @@ TkGrid.columnconfigure root, 0, :weight => 1; TkGrid.rowconfigure root, 0, :weig
 
 # Start Notebook
 
-notebook = Tk::Tile::Notebook.new(root){place('height' => 480, 'width' => 700)}
+notebook = Tk::Tile::Notebook.new(root){place('height' => 480, 'width' => 700, 'x' => 10, 'y' => 10)}
 
 f1 = TkFrame.new(notebook)
 f2 = TkFrame.new(notebook)
@@ -110,12 +111,12 @@ f6 = TkFrame.new(notebook)
 f7 = TkFrame.new(notebook)
 
 notebook.add f1, :text => 'Stats'
-notebook.add f2, :text => 'Soft Skills'
-notebook.add f3, :text => 'Hard Skills'
-notebook.add f4, :text => 'Technical Knowledge'
-notebook.add f5, :text => 'Volunteer Experiences & Causes'
-notebook.add f6, :text => 'Employment History'
-notebook.add f7, :text => 'Education and Training'
+notebook.add f2, :text => 'Soft Skills', :state => 'disabled'
+notebook.add f3, :text => 'Hard Skills', :state => 'disabled' 
+notebook.add f4, :text => 'Technical Knowledge', :state => 'disabled'
+notebook.add f5, :text => 'Volunteer Experiences & Causes', :state => 'disabled'
+notebook.add f6, :text => 'Employment History', :state => 'disabled'
+notebook.add f7, :text => 'Education and Training', :state => 'disabled'
 
 # End Notebook
 

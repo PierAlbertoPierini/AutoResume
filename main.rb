@@ -27,16 +27,15 @@ require 'tkextlib/tile'
 require_relative 'src/word_counter.rb'
 
 
-root = TkRoot.new {title "AutoResume"}
+$root = TkRoot.new( :title => "AutoResume", :width => 400, :height => 300)
 
-Tk::Tile::Frame.new(root).grid( :padx => 350, :pady => 250)
-Tk::Tile::SizeGrip.new(root).grid( :column => 999, :row => 999, :sticky => 'se')
+Tk::Tile::Frame.new($root).grid( :padx => 350, :pady => 250)
+Tk::Tile::SizeGrip.new($root).grid( :column => 999, :row => 999, :sticky => 'se')
 TkOption.add '*tearOff', 0
 
 # Variables
 
 # Menu Actions
-
 menu_click = Proc.new {
    Tk.messageBox(
       'type'    => "ok",
@@ -53,33 +52,31 @@ ar_savefile = Proc.new {
    Tk.getSaveFile
 }
 
-# Start Menu
-
 # File menu
-file_menu = TkMenu.new(root, 'tearoff' => false)
+file_menu = TkMenu.new($root, 'tearoff' => false)
 
 file_menu.add('command',
               'label'     => "New...",
               'command'   => menu_click,
               'underline' => 0)
-root.bind('Control-N', proc {openDocument})
+$root.bind('Control-N', proc {openDocument})
 file_menu.add('command',
               'label'     => "Open...",
               'command'   => proc {openDocument},
               'underline' => 0,
               'accel' =>'Ctrl-o')
-root.bind('Control-o', proc {openDocument})
+$root.bind('Control-o', proc {openDocument})
 file_menu.add('command',
               'label'     => "Close",
               'command'   => menu_click,
               'underline' => 0)
-root.bind('Control-c', proc {openDocument})
+$root.bind('Control-c', proc {openDocument})
 file_menu.add('separator')
 file_menu.add('command',
               'label'     => "Save",
               'command'   => ar_savefile,
               'underline' => 0)
-root.bind('Control-S', proc {openDocument})
+$root.bind('Control-S', proc {openDocument})
 file_menu.add('command',
               'label'     => "Save As...",
               'command'   => menu_click,
@@ -90,10 +87,10 @@ file_menu.add('command',
               'command'   => proc { exit },
               'underline' => 0,
               'accel' => 'Ctrl-q')
-root.bind('Control-q', proc {exit})
+$root.bind('Control-q', proc {exit})
 
 # Edit menu
-edit_menu = TkMenu.new(root, 'tearoff' => false)
+edit_menu = TkMenu.new($root, 'tearoff' => false)
 
 edit_menu.add('command',
               'label'     => "New...",
@@ -101,8 +98,12 @@ edit_menu.add('command',
               'underline' => 0)
 
 # Help menu
-help_menu = TkMenu.new(root, 'tearoff' => false)
+help_menu = TkMenu.new($root, 'tearoff' => false)
 
+help_menu.add('command',
+              'label'     => "New...",
+              'command'   =>  menu_click,
+              'underline' => 0)
 # Add on the menu bar components
 menu_bar = TkMenu.new
 
@@ -116,18 +117,19 @@ menu_bar.add('cascade',
              'menu'  => help_menu,
              'label' => "Help")
 
-root.menu(menu_bar)
+$root.menu(menu_bar)
 
 # End menu
 
-content = Tk::Tile::Frame.new(root) {padding "10 5 10 10"}.grid( :sticky => 'nsew')
-TkGrid.columnconfigure root, 0, :weight => 1; TkGrid.rowconfigure root, 0, :weight => 1
+# Window menagement
+content = Tk::Tile::Frame.new($root) {padding "10 5 10 10"}.grid( :sticky => 'nsew')
+TkGrid.columnconfigure $root, 0, :weight => 1; TkGrid.rowconfigure $root, 0, :weight => 1
 
 # Start Text
 
 # Start Notebook
 
-notebook = Tk::Tile::Notebook.new(root){place('height' => 480, 'width' => 700, 'x' => 10, 'y' => 10)}
+notebook = Tk::Tile::Notebook.new($root){place('height' => 480, 'width' => 700, 'x' => 10, 'y' => 10)}
 
 f1 = TkFrame.new(notebook)
 f2 = TkFrame.new(notebook)
@@ -151,6 +153,28 @@ notebook.add f8, :text => 'Exceptions', :state => 'normal'
 
 # Stats
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 0, :row => 1)
+my_resume.insert(1.0, "here is my text to insert")
+text_my_resume = my_resume.get("1.0", 'end')
+
+# working button
+TkButton.new(f1) do 
+	text 'Clear'
+	command do
+	my_resume.delete("1.0", 'end')
+    end
+    grid( :column => 0, :row => 2, :sticky => 'w')
+ end
+ 
+lab	=	TkLabel.new(f1){text text_my_resume}.grid( :column => 2, :row => 1)
+ 
+TkButton.new(f1) do 
+	text 'Send'
+	command do
+	my_resume.delete("1.0", 'end')
+    end
+    grid( :column => 1, :row => 2, :sticky => 'w')
+end
+
 # my_resume.insert 'end', "Paste your resume"
 #Tk::messageBox :message => count_words(my_resume).sort
 
@@ -171,8 +195,7 @@ except_001.place('height' => 25, 'width'  => 150, 'x'   => 10, 'y'   => 10)
 
 
 # Start Buttons
-Tk::Tile::Button.new(f1) {text 'Clear'; command {calculate}}.grid( :column => 0, :row => 2, :sticky => 'w')
-Tk::Tile::Button.new(f1) {text 'Send'; command {Tk::messageBox :message => count_words(my_resume).sort}}.grid( :column => 0, :row => 2, :sticky => 'e')
+
 Tk::Tile::Button.new(f1) {text 'Clear'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'w')
 Tk::Tile::Button.new(f1) {text 'Paste'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'e')
 

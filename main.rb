@@ -172,14 +172,33 @@ TkButton.new(f1) do
 	command do
 	my_resume.delete("1.0", 'end')
     end
-    grid( :column => 1, :row => 2, :sticky => 'w')
+    grid( :column => 0, :row => 2, :sticky => 'e')
 end
 
 # my_resume.insert 'end', "Paste your resume"
 #Tk::messageBox :message => count_words(my_resume).sort
 
 job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 1, :row => 1)
-job_application.insert 'end', "Paste job post"
+job_application.insert(1.0, 'Paste job post')
+job_my_resume = job_application.get("1.0", 'end')
+
+TkButton.new(f1) do 
+	text 'Clear'
+	command do
+	job_application.delete("1.0", 'end')
+    end
+    grid( :column => 1, :row => 2, :sticky => 'w')
+ end
+ 
+lab	=	TkLabel.new(f1){text job_my_resume}.grid( :column => 3, :row => 1)
+ 
+TkButton.new(f1) do 
+	text 'Send'
+	command do
+	job_application.delete("1.0", 'end')
+    end
+    grid( :column => 1, :row => 2, :sticky => 'e')
+end
 
 # Exceptions
 # Find how to add automatically to add new exceptions
@@ -192,12 +211,5 @@ except_001.place('height' => 25, 'width'  => 150, 'x'   => 10, 'y'   => 10)
 # Help Window
 # t = TkToplevel.new(parent)
 # Tk::messageBox :message => 'Have a good day'
-
-
-# Start Buttons
-
-Tk::Tile::Button.new(f1) {text 'Clear'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'w')
-Tk::Tile::Button.new(f1) {text 'Paste'; command {calculate}}.grid( :column => 1, :row => 2, :sticky => 'e')
-
 
 Tk.mainloop

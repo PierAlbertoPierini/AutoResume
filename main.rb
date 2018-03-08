@@ -26,12 +26,13 @@ require 'tk'
 require 'tkextlib/tile'
 require_relative 'src/word_counter.rb'
 
-
-$root = TkRoot.new( :title => "AutoResume", :width => 400, :height => 300)
-
-Tk::Tile::Frame.new($root).grid( :padx => 350, :pady => 250)
-Tk::Tile::SizeGrip.new($root).grid( :column => 999, :row => 999, :sticky => 'se')
+$root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)
+content = Tk::Tile::Frame.new($root) {padding "3 3 12 12"}.grid(:sticky => 'nsew')
+TkGrid.columnconfigure $root, 0, :weight => 1; TkGrid.rowconfigure $root, 0, :weight => 1
+ 
+Tk::Tile::SizeGrip.new($root).grid( :column => 999, :row => 999, :sticky => 'nsew')
 TkOption.add '*tearOff', 0
+
 
 # Variables
 
@@ -119,17 +120,10 @@ menu_bar.add('cascade',
 
 $root.menu(menu_bar)
 
-# End menu
-
-# Window menagement
-content = Tk::Tile::Frame.new($root) {padding "10 5 10 10"}.grid( :sticky => 'nsew')
-TkGrid.columnconfigure $root, 0, :weight => 1; TkGrid.rowconfigure $root, 0, :weight => 1
-
-# Start Text
-
 # Start Notebook
 
-notebook = Tk::Tile::Notebook.new($root){place('height' => 480, 'width' => 700, 'x' => 10, 'y' => 10)}
+notebook = Tk::Tile::Notebook.new($root){place('height' => 480, 'width' => 700)}
+notebook.grid :column => 0, :row => 0, :sticky => 'nsew'
 
 f1 = TkFrame.new(notebook)
 f2 = TkFrame.new(notebook)

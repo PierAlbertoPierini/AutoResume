@@ -26,15 +26,22 @@ require 'tk'
 require 'tkextlib/tile'
 require_relative 'src/word_counter.rb'
 
+# Start Root window mainloop
 $root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)
-content = Tk::Tile::Frame.new($root) {padding "3 3 12 12"}.grid(:sticky => 'nsew')
-TkGrid.columnconfigure $root, 0, :weight => 1; TkGrid.rowconfigure $root, 0, :weight => 1
- 
-Tk::Tile::SizeGrip.new($root).grid( :column => 999, :row => 999, :sticky => 'nsew')
-TkOption.add '*tearOff', 0
-
-
+# Contents
+content = Tk::Tile::Frame.new($root) {padding "3 3 12 12"}
+config_column = TkGrid.columnconfigure $root, 0, :weight => 1; TkGrid.rowconfigure $root, 0, :weight => 1
+resize_window = Tk::Tile::SizeGrip.new($root)
+#TkOption.add '*tearOff', 0
+# Scroll bar adde but is not working well
+$scrollbar = Tk::Tile::Scrollbar.new($root) {orient 'vertical';
+        command proc{|*args| content.yview(*args)}}.grid :column => 1, :row => 0, :sticky => 'ns'
+# Contents Grid
+content.grid :sticky => 'nsew'
+resize_window.grid :column => 999, :row => 999, :sticky => 'se'
 # Variables
+$option_one = TkVariable.new(1)
+
 
 # Menu Actions
 menu_click = Proc.new {
@@ -136,32 +143,31 @@ f8 = TkFrame.new(notebook)
 
 notebook.add f1, :text => 'Stats', :state => 'normal'
 notebook.add f2, :text => 'Soft Skills', :state => 'disabled'
-notebook.add f3, :text => 'Hard Skills', :state => 'disabled' 
+notebook.add f3, :text => 'Hard Skills', :state => 'disabled'
 notebook.add f4, :text => 'Technical Knowledge', :state => 'disabled'
 notebook.add f5, :text => 'Volunteer Experiences & Causes', :state => 'disabled'
 notebook.add f6, :text => 'Employment History', :state => 'disabled'
 notebook.add f7, :text => 'Education and Training', :state => 'disabled'
 notebook.add f8, :text => 'Exceptions', :state => 'normal'
 
-# End Notebook
-
 # Stats
-my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 0, :row => 1)
+my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}
+my_resume.grid :column => 0, :row => 1
 my_resume.insert(1.0, "here is my text to insert")
 text_my_resume = my_resume.get("1.0", 'end')
 
 # working button
-TkButton.new(f1) do 
+TkButton.new(f1) do
 	text 'Clear'
 	command do
 	my_resume.delete("1.0", 'end')
     end
     grid( :column => 0, :row => 2, :sticky => 'w')
  end
- 
+
 lab	=	TkLabel.new(f1){text text_my_resume}.grid( :column => 2, :row => 1)
- 
-TkButton.new(f1) do 
+
+TkButton.new(f1) do
 	text 'Send'
 	command do
 	my_resume.delete("1.0", 'end')
@@ -172,21 +178,22 @@ end
 # my_resume.insert 'end', "Paste your resume"
 #Tk::messageBox :message => count_words(my_resume).sort
 
-job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}.grid( :column => 1, :row => 1)
+job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 9 italic')}
+job_application.grid :column => 1, :row => 1
 job_application.insert(1.0, 'Paste job post')
 job_my_resume = job_application.get("1.0", 'end')
 
-TkButton.new(f1) do 
+TkButton.new(f1) do
 	text 'Clear'
 	command do
 	job_application.delete("1.0", 'end')
     end
     grid( :column => 1, :row => 2, :sticky => 'w')
  end
- 
+
 lab	=	TkLabel.new(f1){text job_my_resume}.grid( :column => 3, :row => 1)
- 
-TkButton.new(f1) do 
+
+TkButton.new(f1) do
 	text 'Send'
 	command do
 	job_application.delete("1.0", 'end')
@@ -195,7 +202,7 @@ TkButton.new(f1) do
 end
 
 # Exceptions
-# Find how to add automatically to add new exceptions
+# Find how to add automatically new exceptions
 except_001 = TkEntry.new(f8)
 variable001 = TkVariable.new
 except_001.textvariable = variable001
@@ -206,4 +213,5 @@ except_001.place('height' => 25, 'width'  => 150, 'x'   => 10, 'y'   => 10)
 # t = TkToplevel.new(parent)
 # Tk::messageBox :message => 'Have a good day'
 
+# End root mainloop
 Tk.mainloop

@@ -147,25 +147,19 @@ notebook.add f4, :text => 'Technical Knowledge', :state => 'disabled'
 notebook.add f5, :text => 'Volunteer Experiences & Causes', :state => 'disabled'
 notebook.add f6, :text => 'Employment History', :state => 'disabled'
 notebook.add f7, :text => 'Education and Training', :state => 'disabled'
-notebook.add f8, :text => 'Exceptions', :state => 'normal'
+notebook.add f8, :text => 'Exceptions', :state => 'disabled'
 
-# F1
-# Scroll bar adde but is not working well
-$scrollbar = Tk::Tile::Scrollbar.new($root) {orient 'vertical';
-        command proc{|*args| f1.yview(*args)}}
-$scrollbar.grid :column => 4, :row => 0, :sticky => 'ns'
-
-# Stats
+# F1 (Stats)
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 my_resume.grid :row => 0, :column => 0
 my_resume.insert(1.0, "here is my text to insert")
 text_my_resume = my_resume.get("1.0", 'end')
 scroll_bar_resume = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| my_resume.yview *args })
-scroll_bar_resume.grid :column => 1, :row => 0, :sticky => 'ns'
+scroll_bar_resume.grid :row => 0, :column => 1, :sticky => 'ns'
 my_resume.yscrollcommand(proc { |first,last| scroll_bar_resume.set(first,last) })
 
 # working button
-TkButton.new(f1) do
+Tk::Tile::Button.new(f1) do
 	text 'Clear'
 	command do
 	my_resume.delete("1.0", 'end')
@@ -173,9 +167,10 @@ TkButton.new(f1) do
     grid( :column => 0, :row => 1, :sticky => 'w')
  end
 
-lab	=	TkLabel.new(f1){text text_my_resume}.grid(:row => 0, :column => 2)
+label_1	=	Tk::Tile::Label.new(f1){text text_my_resume}
+label_1.grid :row => 0, :column => 4
 
-TkButton.new(f1) do
+Tk::Tile::Button.new(f1) do
 	text 'Send'
 	command do
 	my_resume.delete("1.0", 'end')
@@ -183,38 +178,48 @@ TkButton.new(f1) do
     grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
-#job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
-#job_application.grid :row => 0, :column => 1
-#job_application.insert(1.0, 'Paste job post')
-#job_my_resume = job_application.get("1.0", 'end')
+job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
+job_application.grid :row => 0, :column => 2
+job_application.insert(1.0, 'Paste job post')
+text_job_application = job_application.get("1.0", 'end')
+scroll_bar_job_application = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| job_application.yview *args })
+scroll_bar_job_application.grid :column => 3, :row => 0, :sticky => 'ns'
+job_application.yscrollcommand(proc { |first,last| scroll_bar_job_application.set(first,last) })
 
-#TkButton.new(f1) do
-#	text 'Clear'
-#	command do
-#	job_application.delete("1.0", 'end')
-#    end
-#    grid( :column => 1, :row => 1, :sticky => 'w')
-# end
-#
-#lab	=	TkLabel.new(f1){text job_my_resume}.grid( :column => 3, :row => 0)
-#
-#TkButton.new(f1) do
-#	text 'Send'
-#	command do
-#	job_application.delete("1.0", 'end')
-#    end
-#    grid( :column => 1, :row => 1, :sticky => 'e')
-#end
+Tk::Tile::Button.new(f1) do
+	text 'Clear'
+	command do
+	job_application.delete("1.0", 'end')
+    end
+    grid( :column => 2, :row => 1, :sticky => 'w')
+end
 
-# F2
-my_text = TkText.new(f2) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
-my_text.grid :row => 0, :column => 0
-my_text.insert(1.0, "here is my text to insert")
-text_my_text = my_text.get("1.0", 'end')
-scroll_bar = Tk::Tile::Scrollbar.new(f2, 'command' => proc { |*args| my_text.yview *args })
-scroll_bar.grid :column => 1, :row => 0, :sticky => 'ns'
-my_text.yscrollcommand(proc { |first,last| scroll_bar.set(first,last) })
+lael_2	=	Tk::Tile::Label.new(f1){text text_job_application}
+lael_2.grid :column => 6, :row => 0
 
+Tk::Tile::Button.new(f1) do
+	text 'Send'
+	command do
+	job_application.delete("1.0", 'end')
+    end
+    grid( :column => 2, :row => 1, :sticky => 'e')
+end
+
+# F2 (Soft Skill)
+entry001 = TkEntry.new(f2)
+variable001 = TkVariable.new
+variable001.value = "Enter any text Variable"
+entry001.grid :column => 0, :row => 1
+
+entry002 = TkEntry.new(f2)
+variable002 = TkVariable.new
+variable002.value = "Enter any text Variable"
+entry002.grid :column => 0, :row => 2
+
+entry003 = TkEntry.new(f2)
+variable003 = TkVariable.new
+variable003.value = "Enter any text Variable"
+entry003.grid :column => 0, :row => 3
 
 # End root mainloop
 Tk.mainloop

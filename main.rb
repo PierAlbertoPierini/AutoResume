@@ -39,8 +39,8 @@ resize_window.grid :column => 999, :row => 999, :sticky => 'nsew'
 
 
 # Variables example
-#$option_one = TkVariable.new(1)
-
+$testVariable_one = TkVariable.new
+$testVariable_two = TkVariable.new
 
 # Menu Actions
 menu_click = Proc.new {
@@ -152,8 +152,8 @@ notebook.add f8, :text => 'Exceptions', :state => 'disabled'
 # F1 (Stats)
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 my_resume.grid :row => 0, :column => 0
-my_resume.insert(1.0, "here is my text to insert")
-text_my_resume = my_resume.get("1.0", 'end')
+#my_resume.insert(1.0, "here is my text to insert")
+#text_my_resume = my_resume.get("1.0", 'end')
 scroll_bar_resume = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| my_resume.yview *args })
 scroll_bar_resume.grid :row => 0, :column => 1, :sticky => 'ns'
 my_resume.yscrollcommand(proc { |first,last| scroll_bar_resume.set(first,last) })
@@ -167,16 +167,16 @@ Tk::Tile::Button.new(f1) do
     grid( :column => 0, :row => 1, :sticky => 'w')
  end
 
-label_1	=	Tk::Tile::Label.new(f1){text text_my_resume}
-label_1.grid :row => 0, :column => 4
-
 Tk::Tile::Button.new(f1) do
 	text 'Send'
 	command do
-	my_resume.delete("1.0", 'end')
+	text_my_resume = my_resume.get("1.0", 'end')
     end
     grid( :column => 0, :row => 1, :sticky => 'e')
 end
+
+label_1	=	Tk::Tile::Label.new(f1){text text_my_resume}
+label_1.grid :row => 0, :column => 4
 
 job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 job_application.grid :row => 0, :column => 2
@@ -194,8 +194,8 @@ Tk::Tile::Button.new(f1) do
     grid( :column => 2, :row => 1, :sticky => 'w')
 end
 
-lael_2	=	Tk::Tile::Label.new(f1){text text_job_application}
-lael_2.grid :column => 6, :row => 0
+label_2	=	Tk::Tile::Label.new(f1){text text_job_application}
+label_2.grid :column => 6, :row => 0
 
 Tk::Tile::Button.new(f1) do
 	text 'Send'

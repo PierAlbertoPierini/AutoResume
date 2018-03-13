@@ -168,11 +168,9 @@ Tk::Tile::Button.new(f1) do
  end
 
 Tk::Tile::Button.new(f1) do
-	text 'Send'
-	command do
-	text_my_resume = my_resume.get("1.0", 'end')
-    end
-    grid( :column => 0, :row => 1, :sticky => 'e')
+	text 'Count Words'
+	command proc{puts count_words(my_resume.get("1.0", 'end'))}
+  grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
 label_1	=	Tk::Tile::Label.new(f1){text text_my_resume}
@@ -198,11 +196,9 @@ label_2	=	Tk::Tile::Label.new(f1){text text_job_application}
 label_2.grid :column => 6, :row => 0
 
 Tk::Tile::Button.new(f1) do
-	text 'Send'
-	command do
-	job_application.delete("1.0", 'end')
-    end
-    grid( :column => 2, :row => 1, :sticky => 'e')
+	text 'Count Words'
+	command proc{puts "ciao"; puts count_words(job_application.get("1.0", 'end'))}
+  grid( :column => 2, :row => 1, :sticky => 'e')
 end
 
 # F2 (Soft Skill)

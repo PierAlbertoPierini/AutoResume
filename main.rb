@@ -152,8 +152,8 @@ notebook.add f8, :text => 'Exceptions', :state => 'disabled'
 # F1 (Stats)
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 my_resume.grid :row => 0, :column => 0
-#my_resume.insert(1.0, "here is my text to insert")
-#text_my_resume = my_resume.get("1.0", 'end')
+my_resume.insert(1.0, "here is my text to insert")
+text_my_resume = my_resume.get("1.0", 'end')
 scroll_bar_resume = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| my_resume.yview *args })
 scroll_bar_resume.grid :row => 0, :column => 1, :sticky => 'ns'
 my_resume.yscrollcommand(proc { |first,last| scroll_bar_resume.set(first,last) })

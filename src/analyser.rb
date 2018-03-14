@@ -1,4 +1,8 @@
-require 'json'
+# File from http://rubywordcount.com/
+
+
+
+#require 'json'
 
 class Analyser
   def initialize(text, filter)
@@ -36,9 +40,9 @@ class Analyser
     "<ul>\n" + list + "</ul>"
   end
 
-  def json_list
-    JSON.parse(word_occurrences.to_json)
-  end
+  #def json_list
+  #  JSON.parse(word_occurrences.to_json)
+  #end
 
 private
 

@@ -1,3 +1,5 @@
+# File from http://rubywordcount.com/
+
 class WordsOnlySanitizer
   # Allow for diacritics, hence p{Alpha} and not \w
   # We should not split words on apostrophes either

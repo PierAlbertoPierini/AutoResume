@@ -1,3 +1,5 @@
+# File from http://rubywordcount.com/
+
 text = WordsOnlySanitizer.to_words(File.read('words.txt'))
 filter = WordsOnlySanitizer.to_words(File.read('filter_words.txt'))
 analyser = Analyser.new(text, filter)
@@ -20,5 +22,5 @@ puts "\n"
 puts "Word list:"
 puts analyser.html_list
 
-puts "JSON object:"
-puts analyser.json_list
+#puts "JSON object:"
+#puts analyser.json_list

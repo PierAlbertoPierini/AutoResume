@@ -24,7 +24,7 @@
 
 require 'tk'
 require 'tkextlib/tile'
-require 'words_counted'
+require_relative 'src/word_counter.rb'
 
 # Start Root window mainloop
 $root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)
@@ -169,7 +169,7 @@ Tk::Tile::Button.new(f1) do
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{counter = WordsCounted::Tokeniser(my_resume.get("1.0", 'end')).tokenise(exclude: "text"); puts counter.token_frequency}
+	command proc{puts count_words(my_resume.get("1.0", 'end'))}
   grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
@@ -197,7 +197,7 @@ label_2.grid :column => 6, :row => 0
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{puts WordsCounted.count(job_application.get("1.0", 'end'))}
+	command proc{puts "ciao"; puts count_words(job_application.get("1.0", 'end'))}
   grid( :column => 2, :row => 1, :sticky => 'e')
 end
 

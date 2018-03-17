@@ -158,7 +158,6 @@ scroll_bar_resume = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| my_r
 scroll_bar_resume.grid :row => 0, :column => 1, :sticky => 'ns'
 my_resume.yscrollcommand(proc { |first,last| scroll_bar_resume.set(first,last) })
 
-# working button
 Tk::Tile::Button.new(f1) do
 	text 'Clear'
 	command do
@@ -169,12 +168,13 @@ Tk::Tile::Button.new(f1) do
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{puts WordCounter.scan_words(my_resume.get("1.0", 'end'))}
+	command proc{text_my_resume = WordCounter.scan_words(my_resume.get("1.0", 'end'))}
   grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
 label_1	=	Tk::Tile::Label.new(f1){text text_my_resume}
 label_1.grid :row => 0, :column => 4
+
 
 job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 job_application.grid :row => 0, :column => 2
@@ -217,5 +217,6 @@ variable003 = TkVariable.new
 variable003.value = "Enter any text Variable"
 entry003.grid :column => 0, :row => 3
 
+TkWinfo.children(f2).each {|w| TkGrid.configure w, :padx => 5, :pady => 5}
 # End root mainloop
 Tk.mainloop

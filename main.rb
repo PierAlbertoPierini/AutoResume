@@ -150,10 +150,17 @@ notebook.add f7, :text => 'Education and Training', :state => 'disabled'
 notebook.add f8, :text => 'Exceptions', :state => 'disabled'
 
 # F1 (Stats)
+# variable to change in automatic the label
+
+$resultsVar = TkVariable.new
+#label['textvariable'] = $resultsVar
+#$resultsVar.value = 'New value to display'
+
+
+
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 my_resume.grid :row => 0, :column => 0
 my_resume.insert(1.0, "here is my text to insert")
-text_my_resume = my_resume.get("1.0", 'end')
 scroll_bar_resume = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| my_resume.yview *args })
 scroll_bar_resume.grid :row => 0, :column => 1, :sticky => 'ns'
 my_resume.yscrollcommand(proc { |first,last| scroll_bar_resume.set(first,last) })
@@ -168,18 +175,18 @@ Tk::Tile::Button.new(f1) do
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{text_my_resume = WordCounter.scan_words(my_resume.get("1.0", 'end'))}
+	command proc{$resultsVar.value = WordCounter.scan_words(my_resume.get("1.0", 'end')).sort.to_h}
   grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
-label_1	=	Tk::Tile::Label.new(f1){text text_my_resume}
+label_1	=	Tk::Tile::Label.new(f1){$resultsVar.value = my_resume.get("1.0", 'end')}
+label_1 ['textvariable'] = $resultsVar
 label_1.grid :row => 0, :column => 4
 
 
 job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 job_application.grid :row => 0, :column => 2
 job_application.insert(1.0, 'Paste job post')
-text_job_application = job_application.get("1.0", 'end')
 scroll_bar_job_application = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| job_application.yview *args })
 scroll_bar_job_application.grid :column => 3, :row => 0, :sticky => 'ns'
 job_application.yscrollcommand(proc { |first,last| scroll_bar_job_application.set(first,last) })
@@ -192,12 +199,12 @@ Tk::Tile::Button.new(f1) do
     grid( :column => 2, :row => 1, :sticky => 'w')
 end
 
-label_2	=	Tk::Tile::Label.new(f1){text text_job_application}
+label_2	=	Tk::Tile::Label.new(f1){text job_application.get("1.0", 'end')}
 label_2.grid :column => 6, :row => 0
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{puts WordCounter.scan_words(job_application.get("1.0", 'end'))}
+	command proc{puts WordCounter.scan_words(job_application.get("1.0", 'end')).sort.to_h}
   grid( :column => 2, :row => 1, :sticky => 'e')
 end
 

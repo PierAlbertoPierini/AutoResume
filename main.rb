@@ -175,12 +175,11 @@ Tk::Tile::Button.new(f1) do
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{$resultsVar.value = WordCounter.scan_words(my_resume.get("1.0", 'end')).sort.to_h}
+	command proc{$resultsVar.value = WordCounter.print_on_screen(my_resume.get("1.0", 'end'))}
   grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
-label_1	=	Tk::Tile::Label.new(f1){$resultsVar.value = my_resume.get("1.0", 'end')}
-label_1 ['textvariable'] = $resultsVar
+label_1	=	TkLabel.new(f1){textvariable $resultsVar}
 label_1.grid :row => 0, :column => 4
 
 

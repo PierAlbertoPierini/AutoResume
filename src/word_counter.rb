@@ -11,14 +11,9 @@ def self.count_words(string)
   return frequency
 end
 
-def self.print_on_screen(string_text)
-  text_scanned = string_text.scan(/\w+/).reduce(Hash.new(0)){|res,w| res[w.downcase]+=1;res}
-  text_scanned.map{|k,v| "#{k}=#{v}"}.join('\n')
-  return
-  #text_scanned.each do |key, value|
-  #puts "Word: #{key} occurence: #{value}"
-#end
-end
+$prova
+
+#WordCounter.scan_words(job_application.get("1.0", 'end')).sort.to_h.each { |key, value| $prova << "#{key.inspect} maps to #{value} \n"}; puts $prova
 
 #class WordAnalyzer
 #  def initialize(text,filter)

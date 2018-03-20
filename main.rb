@@ -153,10 +153,6 @@ notebook.add f8, :text => 'Exceptions', :state => 'disabled'
 # variable to change in automatic the label
 
 $resultsVar = TkVariable.new
-#label['textvariable'] = $resultsVar
-#$resultsVar.value = 'New value to display'
-
-
 
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 my_resume.grid :row => 0, :column => 0
@@ -169,13 +165,15 @@ Tk::Tile::Button.new(f1) do
 	text 'Clear'
 	command do
 	my_resume.delete("1.0", 'end')
-    end
-    grid( :column => 0, :row => 1, :sticky => 'w')
+  end
+  grid( :column => 0, :row => 1, :sticky => 'w')
  end
+
+$each_kv_resume = ''
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{$resultsVar.value = WordCounter.print_on_screen(my_resume.get("1.0", 'end'))}
+	command proc{WordCounter.scan_words(my_resume.get("1.0", 'end')).sort.to_h.each { |key, value| $each_kv_resume << "#{value} .......... #{key} \n"}; $resultsVar.value = $each_kv_resume}
   grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
@@ -194,16 +192,18 @@ Tk::Tile::Button.new(f1) do
 	text 'Clear'
 	command do
 	job_application.delete("1.0", 'end')
-    end
-    grid( :column => 2, :row => 1, :sticky => 'w')
+  end
+  grid( :column => 2, :row => 1, :sticky => 'w')
 end
 
 label_2	=	Tk::Tile::Label.new(f1){text job_application.get("1.0", 'end')}
 label_2.grid :column => 6, :row => 0
 
+$prova = ''
+
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{puts WordCounter.scan_words(job_application.get("1.0", 'end')).sort.to_h}
+	command proc{WordCounter.scan_words(job_application.get("1.0", 'end')).sort.to_h.each { |key, value| $prova << "#{key.inspect} maps to #{value} \n"}; puts $prova}
   grid( :column => 2, :row => 1, :sticky => 'e')
 end
 

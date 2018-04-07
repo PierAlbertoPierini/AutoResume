@@ -24,7 +24,8 @@
 
 require 'tk'
 require 'tkextlib/tile'
-require_relative 'src/word_occurrences.rb'
+require_relative 'src/words_analyser.rb'
+require_relative 'words_preprocessing.rb'
 
 # Start Root window mainloop
 $root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)

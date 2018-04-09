@@ -24,8 +24,8 @@
 
 require 'tk'
 require 'tkextlib/tile'
+require_relative 'src/words_preprocessing.rb'
 require_relative 'src/words_analyser.rb'
-require_relative 'words_preprocessing.rb'
 
 # Start Root window mainloop
 $root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)
@@ -151,8 +151,9 @@ notebook.add f7, :text => 'Education and Training', :state => 'disabled'
 notebook.add f8, :text => 'Exceptions', :state => 'disabled'
 
 # F1 (Stats)
+#Variables for the words Preprocessing and Analyser
+filter_text = WordsPreprocessing.to_words(File.read('exceptions/filter_list.txt'))
 # variable to change in automatic the label
-
 $resultsVar = TkVariable.new
 
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
@@ -171,10 +172,11 @@ Tk::Tile::Button.new(f1) do
  end
 
 $each_kv_resume = ''
+resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end'))
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{WordCounter.scan_words(my_resume.get("1.0", 'end')).sort.to_h.each { |key, value| $each_kv_resume << "#{value} .......... #{key} \n"}; $resultsVar.value = $each_kv_resume}
+	command proc{WordsAnalyser(WordPreprocessing.to_words(my_resume.get("1.0", 'end')),}
   grid( :column => 0, :row => 1, :sticky => 'e')
 end
 
@@ -201,6 +203,7 @@ label_2	=	Tk::Tile::Label.new(f1){text job_application.get("1.0", 'end')}
 label_2.grid :column => 6, :row => 0
 
 $prova = ''
+job_text = WordsPreprocessing.to_words(job_application.get("1.0", 'end'))
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'

@@ -24,6 +24,7 @@
 
 require 'tk'
 require 'tkextlib/tile'
+
 require_relative 'src/words_preprocessing.rb'
 require_relative 'src/words_analyser.rb'
 
@@ -171,12 +172,14 @@ Tk::Tile::Button.new(f1) do
   grid( :column => 0, :row => 1, :sticky => 'w')
  end
 
-$each_kv_resume = ''
+$province = TkVariable.new ( 0 );
+Tk::Tile::Combobox.new(f1) {textvariable $province}
+
 resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end'))
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{WordsAnalyser(WordPreprocessing.to_words(my_resume.get("1.0", 'end')),}
+	command proc{WordsAnalyser.new(resume_text, filter_text); WordsAnalyser.highest_occurring_words_list(5).value}
   grid( :column => 0, :row => 1, :sticky => 'e')
 end
 

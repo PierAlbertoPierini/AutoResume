@@ -24,7 +24,7 @@
 
 require 'tk'
 require 'tkextlib/tile'
-
+require 'tkextlib/bwidget'
 require_relative 'src/words_preprocessing.rb'
 require_relative 'src/words_analyser.rb'
 
@@ -158,10 +158,10 @@ filter_text = WordsPreprocessing.to_words(File.read('exceptions/filter_list.txt'
 $resultsVar = TkVariable.new
 
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
-my_resume.grid :row => 0, :column => 0
+my_resume.grid :row => 1, :column => 0
 my_resume.insert(1.0, "here is my text to insert")
 scroll_bar_resume = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| my_resume.yview *args })
-scroll_bar_resume.grid :row => 0, :column => 1, :sticky => 'ns'
+scroll_bar_resume.grid :row => 1, :column => 1, :sticky => 'ns'
 my_resume.yscrollcommand(proc { |first,last| scroll_bar_resume.set(first,last) })
 
 Tk::Tile::Button.new(f1) do
@@ -169,18 +169,23 @@ Tk::Tile::Button.new(f1) do
 	command do
 	my_resume.delete("1.0", 'end')
   end
-  grid( :column => 0, :row => 1, :sticky => 'w')
+  grid( :column => 0, :row => 2, :sticky => 'w')
  end
 
-$province = TkVariable.new ( 0 );
-Tk::Tile::Combobox.new(f1) {textvariable $province}
+ combobox = Tk::BWidget::ComboBox.new(f1)
+ combobox.grid :column =>0, :row => 0, :sticky =>'w'
+ combobox.values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+ combobox.place('height' => 25,
+ 		'width'  => 150,
+ 		'x'      => 10,
+ 		'y'      => 10)
 
 resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end'))
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
 	command proc{WordsAnalyser.new(resume_text, filter_text); WordsAnalyser.highest_occurring_words_list(5).value}
-  grid( :column => 0, :row => 1, :sticky => 'e')
+  grid( :column => 0, :row => 2, :sticky => 'e')
 end
 
 label_1	=	TkLabel.new(f1){textvariable $resultsVar}
@@ -188,10 +193,10 @@ label_1.grid :row => 0, :column => 4
 
 
 job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
-job_application.grid :row => 0, :column => 2
+job_application.grid :row => 1, :column => 2
 job_application.insert(1.0, 'Paste job post')
 scroll_bar_job_application = Tk::Tile::Scrollbar.new(f1, 'command' => proc { |*args| job_application.yview *args })
-scroll_bar_job_application.grid :column => 3, :row => 0, :sticky => 'ns'
+scroll_bar_job_application.grid :column => 3, :row => 1, :sticky => 'ns'
 job_application.yscrollcommand(proc { |first,last| scroll_bar_job_application.set(first,last) })
 
 Tk::Tile::Button.new(f1) do
@@ -199,7 +204,7 @@ Tk::Tile::Button.new(f1) do
 	command do
 	job_application.delete("1.0", 'end')
   end
-  grid( :column => 2, :row => 1, :sticky => 'w')
+  grid( :column => 2, :row => 2, :sticky => 'w')
 end
 
 label_2	=	Tk::Tile::Label.new(f1){text job_application.get("1.0", 'end')}
@@ -211,7 +216,7 @@ job_text = WordsPreprocessing.to_words(job_application.get("1.0", 'end'))
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
 	command proc{WordCounter.scan_words(job_application.get("1.0", 'end')).sort.to_h.each { |key, value| $prova << "#{key.inspect} maps to #{value} \n"}; puts $prova}
-  grid( :column => 2, :row => 1, :sticky => 'e')
+  grid( :column => 2, :row => 2, :sticky => 'e')
 end
 
 # F2 (Soft Skill)

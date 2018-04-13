@@ -24,7 +24,6 @@
 
 require 'tk'
 require 'tkextlib/tile'
-require 'tkextlib/bwidget'
 require_relative 'src/words_preprocessing.rb'
 require_relative 'src/words_analyser.rb'
 
@@ -172,19 +171,18 @@ Tk::Tile::Button.new(f1) do
   grid( :column => 0, :row => 2, :sticky => 'w')
  end
 
- combobox = Tk::BWidget::ComboBox.new(f1)
- combobox.grid :column =>0, :row => 0, :sticky =>'w'
- combobox.values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
- combobox.place('height' => 25,
- 		'width'  => 150,
- 		'x'      => 10,
- 		'y'      => 10)
+$countryvar = TkVariable.new
+country = Tk::Tile::Combobox.new(f1) { textvariable $countryvar }
+country.grid :row => 0, :column => 2
+country.bind("<ComboboxSelected>") { script }
+## TODO: this command don't work ... Why?
+#country['values'] = [ 1, 2, 3, 4]
 
 resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end'))
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{WordsAnalyser.new(resume_text, filter_text); WordsAnalyser.highest_occurring_words_list(5).value}
+	command proc{WordsAnalyser.new(resume_text, filter_text); puts WordsAnalyser.highest_occurring_words_list(5).value}
   grid( :column => 0, :row => 2, :sticky => 'e')
 end
 

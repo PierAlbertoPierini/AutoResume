@@ -32,8 +32,8 @@ $root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)
 # Contents
 content = Tk::Tile::Frame.new($root) {padding "3 3 3 3"}
 content.grid :sticky => 'nsew'
-config_column = TkGrid.columnconfigure $root, 0, :weight => 1
-config_row = TkGrid.rowconfigure $root, 0, :weight => 1
+#config_column = TkGrid.columnconfigure $root, 0, :weight => 1
+#config_row = TkGrid.rowconfigure $root, 0, :weight => 1
 resize_window = Tk::Tile::SizeGrip.new($root)
 resize_window.grid :column => 999, :row => 999, :sticky => 'nsew'
 #TkOption.add '*tearOff', 0
@@ -170,7 +170,7 @@ Tk::Tile::Button.new(f1) do
   end
   grid( :column => 0, :row => 2, :sticky => 'w')
  end
-
+# Combobox
 $countryvar = TkVariable.new
 country = Tk::Tile::Combobox.new(f1) { textvariable $countryvar }
 country.grid :row => 0, :column => 2
@@ -178,16 +178,14 @@ country.bind("<ComboboxSelected>") { script }
 ## TODO: this command don't work ... Why?
 #country['values'] = [ 1, 2, 3, 4]
 
-resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end'))
-
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{WordsAnalyser.new(resume_text, filter_text); puts WordsAnalyser.highest_occurring_words_list(5).value}
+	command proc{resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end')); analyz = WordsAnalyser.new(resume_text, filter_text); $resultsVar.value = analyz.text_list_highest(20)}
   grid( :column => 0, :row => 2, :sticky => 'e')
 end
 
 label_1	=	TkLabel.new(f1){textvariable $resultsVar}
-label_1.grid :row => 0, :column => 4
+label_1.grid :row => 1, :column => 4
 
 
 job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
@@ -213,7 +211,7 @@ job_text = WordsPreprocessing.to_words(job_application.get("1.0", 'end'))
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{WordCounter.scan_words(job_application.get("1.0", 'end')).sort.to_h.each { |key, value| $prova << "#{key.inspect} maps to #{value} \n"}; puts $prova}
+	command proc{}
   grid( :column => 2, :row => 2, :sticky => 'e')
 end
 

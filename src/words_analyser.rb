@@ -24,6 +24,13 @@ class WordsAnalyser
     "\n" + list + "\n"
   end
 
+  def text_list_highest(number_words)
+    list = highest_occurring_words(number_words).sort_by {|word, occs| occs}.reverse.map do |word, occs|
+      "  #{word}: #{occs}"
+    end.join("\n")
+    "\n" + list + "\n"
+  end
+
   def text_list
     list = words_occurrences.sort_by {|word, occs| occs}.reverse.map do |word, occs|
       "  #{word}: #{occs}"

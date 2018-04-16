@@ -52,7 +52,7 @@ menu_click = Proc.new {
       'message' => "Function not supported"
    )
 }
-
+## TODO: ope and save file
 ar_openfile = Proc.new {
    Tk.getOpenFile
 }
@@ -70,7 +70,7 @@ file_menu.add('command',
 $root.bind('Control-N', proc {openDocument})
 file_menu.add('command',
               'label'     => "Open...",
-              'command'   => proc {openDocument},
+              'command'   => ar_openfile,
               'underline' => 0,
               'accel' =>'Ctrl-o')
 $root.bind('Control-o', proc {openDocument})
@@ -153,8 +153,9 @@ notebook.add f8, :text => 'Exceptions', :state => 'disabled'
 # F1 (Stats)
 #Variables for the words Preprocessing and Analyser
 filter_text = WordsPreprocessing.to_words(File.read('exceptions/filter_list.txt'))
-# variable to change in automatic the label
-$resultsVar = TkVariable.new
+# variable to change in automatic the labels
+$resultsResume = TkVariable.new
+$resultsJob = TkVariable.new
 
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 my_resume.grid :row => 1, :column => 0
@@ -170,6 +171,7 @@ Tk::Tile::Button.new(f1) do
   end
   grid( :column => 0, :row => 2, :sticky => 'w')
  end
+## TODO: combobox to fix
 # Combobox
 $countryvar = TkVariable.new
 country = Tk::Tile::Combobox.new(f1) { textvariable $countryvar }
@@ -180,13 +182,14 @@ country.bind("<ComboboxSelected>") { script }
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end')); analyz = WordsAnalyser.new(resume_text, filter_text); $resultsVar.value = analyz.text_list_highest(20)}
+	command proc{resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end'));
+      resume_analysed = WordsAnalyser.new(resume_text, filter_text);
+      $resultsResume.value = resume_analysed.text_list_highest(20)}
   grid( :column => 0, :row => 2, :sticky => 'e')
 end
 
-label_1	=	TkLabel.new(f1){textvariable $resultsVar}
+label_1	=	Tk::Tile::Label.new(f1){textvariable $resultsResume}
 label_1.grid :row => 1, :column => 4
-
 
 job_application = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 job_application.grid :row => 1, :column => 2
@@ -203,15 +206,14 @@ Tk::Tile::Button.new(f1) do
   grid( :column => 2, :row => 2, :sticky => 'w')
 end
 
-label_2	=	Tk::Tile::Label.new(f1){text job_application.get("1.0", 'end')}
-label_2.grid :column => 6, :row => 0
-
-$prova = ''
-job_text = WordsPreprocessing.to_words(job_application.get("1.0", 'end'))
+label_2	=	Tk::Tile::Label.new(f1){textvariable $resultsJob}
+label_2.grid :column => 6, :row => 1
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
-	command proc{}
+   command proc{job_text = WordsPreprocessing.to_words(job_application.get("1.0", 'end'));
+      job_analysed = WordsAnalyser.new(job_text, filter_text);
+      $resultsJob.value = job_analysed.text_list_highest(20)}
   grid( :column => 2, :row => 2, :sticky => 'e')
 end
 

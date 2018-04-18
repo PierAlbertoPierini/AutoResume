@@ -171,20 +171,22 @@ Tk::Tile::Button.new(f1) do
   end
   grid( :column => 0, :row => 2, :sticky => 'w')
  end
-## TODO: combobox to fix
-# Combobox
-$countryvar = TkVariable.new
-country = Tk::Tile::Combobox.new(f1) { textvariable $countryvar }
-country.grid :row => 0, :column => 2
-country.bind("<ComboboxSelected>") { script }
-## TODO: this command don't work ... Why?
-#country['values'] = [ 1, 2, 3, 4]
+
+# Lable and Combobox
+label_numberwords = Tk::Tile::Label.new(f1) {text 'Number Words to show:'}
+label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
+
+$number_words_var = TkVariable.new
+numberwords = Tk::Tile::Combobox.new(f1) { textvariable $number_words_var }
+numberwords.grid :row => 0, :column => 2, :sticky => 'w'
+numberwords.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
+numberwords.values = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
 	command proc{resume_text = WordsPreprocessing.to_words(my_resume.get("1.0", 'end'));
       resume_analysed = WordsAnalyser.new(resume_text, filter_text);
-      $resultsResume.value = resume_analysed.text_list_highest(20)}
+      $resultsResume.value = resume_analysed.text_list_highest($number_words)}
   grid( :column => 0, :row => 2, :sticky => 'e')
 end
 
@@ -213,7 +215,7 @@ Tk::Tile::Button.new(f1) do
 	text 'Count Words'
    command proc{job_text = WordsPreprocessing.to_words(job_application.get("1.0", 'end'));
       job_analysed = WordsAnalyser.new(job_text, filter_text);
-      $resultsJob.value = job_analysed.text_list_highest(20)}
+      $resultsJob.value = job_analysed.text_list_highest($number_words)}
   grid( :column => 2, :row => 2, :sticky => 'e')
 end
 

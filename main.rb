@@ -220,20 +220,44 @@ Tk::Tile::Button.new(f1) do
 end
 
 # F2 (Soft Skill)
+label_numberwords = Tk::Tile::Label.new(f2) {text 'Soft Skill file:'}
+label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
+
+soft_skill_file = TkEntry.new(f2)
+soft_skill_variable = TkVariable.new
+soft_skill_variable.value = "Enter any text Variable"
+soft_skill_file.grid :column => 1, :row => 0
+
+Tk::Tile::Button.new(f2) do
+	text 'Populate the entries'
+	command proc{}
+  grid( :column => 2, :row => 0, :sticky => 'w')
+end
+
 entry001 = TkEntry.new(f2)
 variable001 = TkVariable.new
 variable001.value = "Enter any text Variable"
-entry001.grid :column => 0, :row => 1
+entry001.grid :column => 0, :row => 2
 
 entry002 = TkEntry.new(f2)
 variable002 = TkVariable.new
 variable002.value = "Enter any text Variable"
-entry002.grid :column => 0, :row => 2
+entry002.grid :column => 1, :row => 2
 
 entry003 = TkEntry.new(f2)
 variable003 = TkVariable.new
 variable003.value = "Enter any text Variable"
-entry003.grid :column => 0, :row => 3
+entry003.grid :column => 2, :row => 2
+
+entry004 = TkEntry.new(f2)
+variable004 = TkVariable.new
+variable004.value = "Enter any text Variable"
+entry004.grid :column => 3, :row => 2
+
+entry005 = TkEntry.new(f2)
+variable005 = TkVariable.new
+variable005.value = "Enter any text Variable"
+entry005.grid :column => 4, :row => 2
 
 TkWinfo.children(f2).each {|w| TkGrid.configure w, :padx => 5, :pady => 5}
 # End root mainloop

@@ -52,7 +52,7 @@ menu_click = Proc.new {
       'message' => "Function not supported"
    )
 }
-## TODO: ope and save file
+## TODO: open and save file
 ar_openfile = Proc.new {
    Tk.getOpenFile
 }
@@ -220,13 +220,18 @@ Tk::Tile::Button.new(f1) do
 end
 
 # F2 (Soft Skill)
+
+# TODO: Read directory for the list of filter_list
+# Dir["skills/*"]
+
 label_numberwords = Tk::Tile::Label.new(f2) {text 'Soft Skill file:'}
 label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
 
-soft_skill_file = TkEntry.new(f2)
-soft_skill_variable = TkVariable.new
-soft_skill_variable.value = "Enter any text Variable"
-soft_skill_file.grid :column => 1, :row => 0
+#$number_words_var = TkVariable.new
+skills_list = Tk::Tile::Combobox.new(f2) { textvariable }
+skills_list.grid :row => 0, :column => 1
+#skills_list.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
+skills_list.values = [ Dir["skills/*"] ]
 
 Tk::Tile::Button.new(f2) do
 	text 'Populate the entries'

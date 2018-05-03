@@ -26,6 +26,7 @@ require 'tk'
 require 'tkextlib/tile'
 require_relative 'src/words_preprocessing.rb'
 require_relative 'src/words_analyser.rb'
+require_relative 'src/skills_analyser.rb'
 
 # Start Root window mainloop
 $root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)
@@ -144,6 +145,7 @@ f8 = TkFrame.new(notebook)
 notebook.add f1, :text => 'Stats', :state => 'normal'
 notebook.add f2, :text => 'Soft Skills', :state => 'normal'
 notebook.add f3, :text => 'Hard Skills', :state => 'disabled'
+#TODO: notebook to add for filter_list exceptions
 notebook.add f4, :text => 'Technical Knowledge', :state => 'disabled'
 notebook.add f5, :text => 'Volunteer Experiences & Causes', :state => 'disabled'
 notebook.add f6, :text => 'Employment History', :state => 'disabled'
@@ -156,6 +158,16 @@ filter_text = WordsPreprocessing.to_words(File.read('exceptions/filter_list.txt'
 # variable to change in automatic the labels
 $resultsResume = TkVariable.new
 $resultsJob = TkVariable.new
+
+# Lable and Combobox
+label_numberwords = Tk::Tile::Label.new(f1) {text 'Number Words to show:'}
+label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
+
+$number_words_var = TkVariable.new
+numberwords = Tk::Tile::Combobox.new(f1) { textvariable $number_words_var }
+numberwords.grid :row => 0, :column => 2, :sticky => 'w'
+numberwords.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
+numberwords.values = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 my_resume = TkText.new(f1) {width 40; height 25; borderwidth 1; wrap 'word'; font TkFont.new('times 10 italic')}
 my_resume.grid :row => 1, :column => 0
@@ -171,16 +183,6 @@ Tk::Tile::Button.new(f1) do
   end
   grid( :column => 0, :row => 2, :sticky => 'w')
  end
-
-# Lable and Combobox
-label_numberwords = Tk::Tile::Label.new(f1) {text 'Number Words to show:'}
-label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
-
-$number_words_var = TkVariable.new
-numberwords = Tk::Tile::Combobox.new(f1) { textvariable $number_words_var }
-numberwords.grid :row => 0, :column => 2, :sticky => 'w'
-numberwords.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
-numberwords.values = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 Tk::Tile::Button.new(f1) do
 	text 'Count Words'
@@ -221,12 +223,10 @@ end
 
 # F2 (Soft Skill)
 
-# TODO: Read directory for the list of filter_list
-# Dir["skills/*"]
-
 label_numberwords = Tk::Tile::Label.new(f2) {text 'Soft Skill file:'}
 label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
 
+# TODO: Read directory for the list of filter_list
 #$number_words_var = TkVariable.new
 skills_list = Tk::Tile::Combobox.new(f2) { textvariable }
 skills_list.grid :row => 0, :column => 1

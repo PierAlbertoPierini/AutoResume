@@ -28,7 +28,7 @@ require 'tkextlib/tile'
 require_relative 'src/words_preprocessing.rb'
 require_relative 'src/words_analyser.rb'
 require_relative 'src/skills_analyser.rb'
-require_relative 'list_directory.rb'
+require_relative 'src/list_directory.rb'
 
 # Start Root window mainloop
 $root = TkRoot.new( :title => "AutoResume", :width => 640, :height => 480)
@@ -146,7 +146,7 @@ f8 = TkFrame.new(notebook)
 
 notebook.add f1, :text => 'Stats', :state => 'normal'
 notebook.add f2, :text => 'Soft Skills', :state => 'normal'
-notebook.add f3, :text => 'Hard Skills', :state => 'disabled'
+notebook.add f3, :text => 'Hard Skills', :state => 'normal'
 #TODO: notebook to add for filter_list exceptions
 notebook.add f4, :text => 'Technical Knowledge', :state => 'disabled'
 notebook.add f5, :text => 'Volunteer Experiences & Causes', :state => 'disabled'
@@ -288,5 +288,72 @@ label_skills_comlumn4	=	Tk::Tile::Label.new(f2){textvariable }
 label_skills_comlumn4.grid :column => 4, :row => 3
 
 TkWinfo.children(f2).each {|w| TkGrid.configure w, :padx => 5, :pady => 5}
+
+# F3 (Hard Skill)
+# TODO: Hard skills to modify
+label_numberwords = Tk::Tile::Label.new(f3) {text 'Hard Skill file:'}
+label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
+
+# TODO: Read directory for the list of filter_list
+#$number_words_var = TkVariable.new
+skills_list = Tk::Tile::Combobox.new(f3) { textvariable }
+skills_list.grid :row => 0, :column => 1
+#skills_list.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
+skills_file = ListDirectory.new("skills/*")
+skills_list.values = [ skills_file.links_list ]
+
+Tk::Tile::Button.new(f3) do
+	text 'Populate entries'
+	command proc{}
+  grid( :column => 2, :row => 0, :sticky => 'w')
+end
+
+# Add Hard skills
+label_add_skill = Tk::Tile::Label.new(f3) {text 'Add Hard Skill:'}
+label_add_skill.grid :row => 1, :column => 0, :sticky => 'e'
+
+skills_list = Tk::Tile::Combobox.new(f3) { textvariable }
+skills_list.grid :row => 1, :column => 1
+#skills_list.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
+skills_list.values = [ Dir["skills/*"] ]
+
+Tk::Tile::Button.new(f3) do
+	text 'Add Hard Skill'
+	command proc{}
+  grid( :column => 2, :row => 1, :sticky => 'w')
+end
+
+# Delete Hard skills
+label_delete_skill = Tk::Tile::Label.new(f3) {text 'Delete Hard Skill:'}
+label_delete_skill.grid :row => 2, :column => 0, :sticky => 'e'
+
+skills_list = Tk::Tile::Combobox.new(f3) { textvariable }
+skills_list.grid :row => 2, :column => 1
+#skills_list.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
+skills_list.values = [ Dir["skills/*"] ]
+
+Tk::Tile::Button.new(f3) do
+	text 'Delete Hard Skill'
+	command proc{}
+  grid( :column => 2, :row => 2, :sticky => 'w')
+end
+
+# Skills list
+label_skills_comlumn0	=	Tk::Tile::Label.new(f3){textvariable }
+label_skills_comlumn0.grid :column => 0, :row => 3
+
+label_skills_comlumn1	=	Tk::Tile::Label.new(f3){textvariable }
+label_skills_comlumn1.grid :column => 1, :row => 3
+
+label_skills_comlumn2	=	Tk::Tile::Label.new(f3){textvariable }
+label_skills_comlumn2.grid :column => 2, :row => 3
+
+label_skills_comlumn3	=	Tk::Tile::Label.new(f3){textvariable }
+label_skills_comlumn3.grid :column => 3, :row => 3
+
+label_skills_comlumn4	=	Tk::Tile::Label.new(f3){textvariable }
+label_skills_comlumn4.grid :column => 4, :row => 3
+
+TkWinfo.children(f3).each {|w| TkGrid.configure w, :padx => 5, :pady => 5}
 # End root mainloop
 Tk.mainloop

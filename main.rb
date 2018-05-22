@@ -228,12 +228,12 @@ label_numberwords = Tk::Tile::Label.new(f2) {text 'Soft Skill file:'}
 label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
 
 # TODO: Read directory for the list of filter_list
-#$number_words_var = TkVariable.new
-skills_list = Tk::Tile::Combobox.new(f2) { textvariable }
+$skills_soft_list_var = TkVariable.new
+skills_list = Tk::Tile::Combobox.new(f2) { textvariable $skills_soft_list_var}
 skills_list.grid :row => 0, :column => 1
-#skills_list.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
+skills_list.bind("<ComboboxSelected>") { $skills_soft_list_var }
 skills_file = ListDirectory.new("skills/*")
-skills_list.values = [ skills_file.links_list ]
+skills_list.values = skills_file.links_list
 
 Tk::Tile::Button.new(f2) do
 	text 'Populate the entries'

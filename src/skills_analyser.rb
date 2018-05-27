@@ -7,7 +7,7 @@ class SkillsAnalyser
     skill = filtered_skills.each do |frase|
       " #{frase}"
     end.join("\n")
-    "\n" + skill + "\n"
+    #"\n" + skill + "\n"
   end
 
   private

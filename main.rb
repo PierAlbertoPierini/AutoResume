@@ -42,9 +42,10 @@ resize_window.grid :column => 999, :row => 999, :sticky => 'nsew'
 #TkOption.add '*tearOff', 0
 
 
-# Variables example
+# Variables
 $testVariable_one = TkVariable.new
 $testVariable_two = TkVariable.new
+directory_skills = "skills/*"
 
 # Menu Actions
 menu_click = Proc.new {
@@ -112,8 +113,13 @@ edit_menu.add('command',
 help_menu = TkMenu.new($root, 'tearoff' => false)
 
 help_menu.add('command',
-              'label'     => "New...",
+              'label'     => "Help",
               'command'   =>  menu_click,
+              'underline' => 0)
+
+help_menu.add('command',
+              'label'     => "About",
+              'command'   =>  proc {Tk::messageBox :message => 'This pice of software is Developed by Pier Alberto Pierini'},
               'underline' => 0)
 # Add on the menu bar components
 menu_bar = TkMenu.new
@@ -232,7 +238,7 @@ $skills_soft_list_var = TkVariable.new
 skills_list = Tk::Tile::Combobox.new(f2) { textvariable $skills_soft_list_var}
 skills_list.grid :row => 0, :column => 1
 skills_list.bind("<ComboboxSelected>") { $skills_soft_list_var }
-skills_file = ListDirectory.new("skills/*")
+skills_file = ListDirectory.new(directory_skills)
 skills_list.values = skills_file.links_list
 
 Tk::Tile::Button.new(f2) do
@@ -295,11 +301,11 @@ label_numberwords = Tk::Tile::Label.new(f3) {text 'Hard Skill file:'}
 label_numberwords.grid :row => 0, :column => 0, :sticky => 'e'
 
 # TODO: Read directory for the list of filter_list
-#$number_words_var = TkVariable.new
-skills_list = Tk::Tile::Combobox.new(f3) { textvariable }
+$skills_hard_list_var = TkVariable.new
+skills_list = Tk::Tile::Combobox.new(f3) { textvariable $skills_hard_list_var }
 skills_list.grid :row => 0, :column => 1
-#skills_list.bind("<ComboboxSelected>") { $number_words = $number_words_var.to_i }
-skills_file = ListDirectory.new("skills/*")
+skills_list.bind("<ComboboxSelected>") { $skills_hard_list_var }
+skills_file = ListDirectory.new(directory_skills)
 skills_list.values = [ skills_file.links_list ]
 
 Tk::Tile::Button.new(f3) do

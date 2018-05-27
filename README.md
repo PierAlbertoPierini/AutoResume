@@ -10,13 +10,16 @@ Company have programs build to skim who is good for a job, build every time a ne
 ## Done
 - Show Stats from the Resume and the Job Post
 - Remove Specific words with the file Exceptions
-
-## Road map
 - Stats: add a Combobox to give the choice how many words occurrences to show.
 - Add Save and Open file to import or export personal data.
+
+## Road map
+
+- Made Save and Open file functionality.
 - Exceptions: add or delete exceptions from the AutoResume app.
 - Add, modify or delete Hard Skills
 - Add, modify or delete Soft Skills
+<b>- Machine Learning</b>
 
 ## Support
 

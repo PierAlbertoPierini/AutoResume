@@ -4,10 +4,9 @@ class ListDirectory
   end
 
   def links_list
-    list = @links.each do |liaison|
+      @links.each do |liaison|
       "#{liaison}"
     end.join(" ")
-    list
   end
 
 end

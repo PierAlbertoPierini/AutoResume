@@ -21,6 +21,10 @@ Company have programs build to skim who is good for a job, build every time a ne
 - Add, modify or delete Soft Skills
 <b>- Machine Learning</b>
 
+## Dependencies
+Classifier-reborn:
+     gem install classifier-reborn
+
 ## Support
 
 If you like this project and you would like to help, think to support me with a donation.

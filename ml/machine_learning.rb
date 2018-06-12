@@ -9,14 +9,14 @@ class ClassifyResume
   end
 
   def classify!
-    advertisements.each do |advertisement|
-      StoreClassifications.new(advertisement, classifier).execute!
+    advertisements.each do |resumes|
+      StoreClassifications.new(resumes, classifier).execute!
     end
   end
 
   private
 
-  attr_reader :advertisements, :training
+  attr_reader :resumes, :training
 
   def train_classifier!
     training.each do |t|

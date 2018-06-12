@@ -19,7 +19,7 @@ Company have programs build to skim who is good for a job, build every time a ne
 - Exceptions: add or delete exceptions from the AutoResume app.
 - Add, modify or delete Hard Skills
 - Add, modify or delete Soft Skills
-<b>- Machine Learning</b>
+- <b>Machine Learning</b>
 
 ## Dependencies
 Classifier-reborn:
